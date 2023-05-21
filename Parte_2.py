@@ -1,11 +1,10 @@
 from datos import obtener_lista_definiciones
 
-"""
-La funcion recibe como parametro una cadena de 
-caracteres y la devuelve sin acento
-"""
 def palabra_sin_acento(palabra):
     """
+    La funcion recibe como parametro una cadena de 
+    caracteres y la devuelve sin acento
+
     >>> palabra_sin_acento('álbum')
     'album'
     >>> palabra_sin_acento('ácido')
@@ -23,13 +22,14 @@ def palabra_sin_acento(palabra):
         palabra = palabra.replace(vocales_con_acento[letra], vocales[letra])
     return palabra
 
-"""
-La funcion necesitara llamar una funcion 
-del archivo "datos", con la cual realizara 
-un filtrado de palabras.
-La funcion devuelve una lista de listas
-"""
 def filtrar_lista():
+    """
+    La funcion necesitara llamar una funcion 
+    del archivo "datos", con la cual realizara 
+    un filtrado de palabras.
+    La funcion devuelve una lista de listas ordenada
+    alfabeticamente.
+    """
     lista_definiciones = obtener_lista_definiciones()
     LONG_MIN = 5
     lista_definiciones = [[palabra_sin_acento(palabra), definicion] \
@@ -37,16 +37,14 @@ def filtrar_lista():
                     if (len(palabra) >= LONG_MIN)]
     return sorted(lista_definiciones, key=lambda x: x[0].replace("ñ", "n~"))
 
-
-
-"""
-La funcion llamara a la funcion "filtrar_lista",
-la cual devuelve una lista de lista ya cargada.
-La funcion "cargar_datos_para_rosco" devuelve un
-diccionario con clave: letra y valor: una lista de
-listas de [palabra, definicion]
-"""
 def cargar_datos_para_rosco():
+    """
+    La funcion llamara a la funcion "filtrar_lista",
+    la cual devuelve una lista de lista ya cargada.
+    La funcion "cargar_datos_para_rosco" devuelve un
+    diccionario con clave: letra y valor: una lista de
+    listas de [palabra, definicion]
+    """
     diccionario_rosco = {}
     lista_definiciones = filtrar_lista()
 
@@ -60,30 +58,14 @@ def cargar_datos_para_rosco():
 
     return diccionario_rosco
 
-
-"""
-diccionario = cargar_datos_para_rosco()
-valor_a = 0
-for clave, valor in diccionario.items():
-    valor_a += len(valor)
-    print("letra:", clave)
-
-print(len(diccionario), "letras presentes")   
-print(valor_a, "palabras presentes")
-
-"""
-
-
-"""
-La funcion recibe como parametro un diccionario,
-con sus respectivos clave y valores.
-La funcion devuelve un diccionario el cual tiene,
-como clave una letra y como valor la cantidad de 
-listas [palabra, definicion] que contenia el 
-diccionario recibido en el parametro
-"""
 def contar_palabras(diccionario_rosco):
     """
+    La funcion recibe como parametro un diccionario,
+    con sus respectivos clave y valores.
+    La funcion devuelve un diccionario el cual tiene
+    como clave una letra y como valor una variable de tipo
+    int
+
     >>> contar_palabras({"g": [["gasto", "1.  m. Acción de gastar"] ,\
             ["generar","1.  tr. Producir causar algo"]]})
     {'g': 2}
@@ -98,14 +80,13 @@ def contar_palabras(diccionario_rosco):
         letra_cantidad[letra] = cant_palabra
     return letra_cantidad
 
-"""
-La funcion recibe como parametro un diccionario,
-con sus respectivos clave y valor.
-La funcion devuelve el total de la suma de valores
-que contenia el diccionario recibido.
-"""
 def sumar_valores(letra_cantidad):
     """
+    La funcion recibe como parametro un diccionario,
+    con sus respectivos clave y valor.
+    La funcion devuelve el total de la suma de valores
+    que contenia el diccionario recibido.
+
     >>> sumar_valores({"l": 20, "m": 40, "n": 2, "o" : 1})
     63
     >>> sumar_valores({"a": 2, "b": 22, "c": 5, "d": 56})
@@ -126,6 +107,7 @@ def mostrar_resultado(letras_cantidad, suma_total):
     "suma_total" es un int 
     La funcion muestra por pantalla los datos de los parametros
     recibidos.
+
     >>> mostrar_resultado({"a": 2, "b": 22, "c": 5, "d": 56}, 85)
     La letra a tiene 2
     La letra b tiene 22
@@ -139,9 +121,11 @@ def mostrar_resultado(letras_cantidad, suma_total):
     print("El total de palabras presentes en el "
         "diccionario es de:", suma_total)
 
+# Bloque Principal
 dicc_rosco = cargar_datos_para_rosco()
 letras_cantidad = contar_palabras(dicc_rosco)
 suma_total = sumar_valores(letras_cantidad)
+
 #mostrar_resultado(letras_cantidad, suma_total)
 #import doctest
 #print(doctest.testmod())
