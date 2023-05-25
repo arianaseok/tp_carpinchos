@@ -1,4 +1,6 @@
 import Parte_3
+from Parte_2 import palabra_sin_acento
+
 ACIERTO = "a"
 ERROR = "e"
 
@@ -34,26 +36,17 @@ def cargar_palabra():
     la variable palabra.
     """
     palabra = input("Ingrese la palabra: ").lower()
-    return palabra
+    return palabra_sin_acento(palabra)
 
-def verificar_palabra(palabra):
+def palabra_valida():
     """
     La funcion recibe como parametro una variable, y retorna
     la variable de tipo string 
     """
+    palabra = cargar_palabra()
     while not palabra.isalpha():
         print("Ingrese solo LETRAS!")
-        palabra = cargar_palabra()
-    return palabra
-
-def ingresar_palabra():
-    """
-    La funcion guarda los valores de las funciones,
-    "cargar_palabra" y de "verificar_palabra" en la
-    variable palabra y retorna la variable palabra(str)
-    """
-    palabra = cargar_palabra()
-    palabra = verificar_palabra(palabra)
+        palabra = palabra_sin_acento(cargar_palabra())
     return palabra
 
 def analizar_palabra_ingresada(palabra_ingresada, clave_palabra):
@@ -99,7 +92,7 @@ def jugar_turno(aciertos, errores, posicion,
     long_palabra = len(palabra)
     mostrar_tablero(lista_letras, resultados, aciertos, errores,
                     posicion, letra, long_palabra, definicion)
-    palabra_ingresada = ingresar_palabra()
+    palabra_ingresada = palabra_valida()
     resultado = analizar_palabra_ingresada(palabra_ingresada, palabra)
     resultados[posicion] = resultado
     aciertos, errores, puntos = contar_puntos(resultado, aciertos, errores)
@@ -165,28 +158,22 @@ def cargar_respuesta():
     y la retorna
     """
     respuesta = input("¿Camarada deseas seguir jugando? (si/no): ").lower()
-    return respuesta
+    return palabra_sin_acento(respuesta)
 
-def verificar_respuesta(respuesta):
+def respuesta_valida():
     """
-    La funcion recibe como parametro a la variable "respuesta"
-    con la cual trabajara para verificar que lo hay dentro de esa
-    variable sea un "si" o un "no".
+    La funcion llama a la funcion cargar_respuesta y guarda su valor en
+    "respuesta" con la cual trabajara para verificar que lo hay dentro de
+    esa variable sea un "si" o un "no".
     La funcion retorna la variable con una cadena de caracteres que
     puede ser "si" o "no"
     """
+    respuesta = cargar_respuesta()
     while (respuesta != "si") and (respuesta != "no"):
         print("Por favor, ingrese 'si' o 'no'")
-        respuesta = cargar_respuesta()
+        respuesta = palabra_sin_acento(cargar_respuesta())
     return respuesta
 
-def ingresar_respuesta():
-    """
-    La funcion se encarga de agregarle valor
-    """
-    respuesta = cargar_respuesta()
-    respuesta = verificar_respuesta(respuesta)
-    return respuesta
 
 def jugar_rosco():
     resultado = [" " for i in range(10)]
@@ -198,7 +185,7 @@ def jugar_rosco():
         puntaje_partida = juego_inicializado(diccionario_rosco, lista_letras, resultado)
         puntaje_total += puntaje_partida
         print(f"\nEl puntaje de la partida es: {puntaje_partida}")
-        respuesta = ingresar_respuesta()
+        respuesta = respuesta_valida()
         if (respuesta == "no"):
             continuar_jugando = False
         else:
